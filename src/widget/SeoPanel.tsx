@@ -6,7 +6,7 @@ import { apiAuth } from './api-client';
 import './seo.css';
 import { SeoHealthDashboard, SeoRankings, SeoMonitoringSettings } from './SeoMonitoring';
 
-type Props = { accessToken: string; darkMode?: boolean; language?: string; siteName?: string };
+type Props = { accessToken: string; workspaceId?: string; darkMode?: boolean; language?: string; siteName?: string };
 const date = (s?: string) => s ? new Date(s).toLocaleString('de-CH', { dateStyle: 'short', timeStyle: 'short' }) : 'Noch nicht';
 export function captureSeoPage() {
   const main = document.querySelector('main');
@@ -15,7 +15,7 @@ export function captureSeoPage() {
   clone.querySelectorAll('script,style,form,input,textarea,button,[data-seo-exclude],[role="dialog"]').forEach(e => e.remove());
   return { title: document.title, description: document.querySelector('meta[name="description"]')?.getAttribute('content') || '', text: clone.textContent?.replace(/\s+/g, ' ').trim() || '', h1: [...clone.querySelectorAll('h1')].map(e => e.textContent || ''), imageCount: clone.querySelectorAll('img').length, missingAlt: clone.querySelectorAll('img:not([alt])').length };
 }
-export default function SeoPanel({ accessToken, darkMode = false, language = document.documentElement.lang || 'en', siteName = window.location.hostname }: Props) {
+export default function SeoPanel({ accessToken, workspaceId, darkMode = false, language = document.documentElement.lang || 'en', siteName = window.location.hostname }: Props) {
   const pathname = window.location.pathname;
   const currentLanguage = language;
   const [open, setOpen] = useState(false);
@@ -29,7 +29,7 @@ export default function SeoPanel({ accessToken, darkMode = false, language = doc
   const [error, setError] = useState('');
   const [selected, setSelected] = useState(pathname);
   async function request(route: string, body?: any, method = 'POST') {
-    const res = await apiAuth(`seo/${route}`, accessToken, { method: body === undefined && method === 'POST' ? 'GET' : method, ...(body === undefined ? {} : { body: JSON.stringify(body) }), retries: 1, timeoutMs: 115000 });
+    const res = await apiAuth(`seo/${route}`, accessToken, { method: body === undefined && method === 'POST' ? 'GET' : method, ...(body === undefined ? {} : { body: JSON.stringify(body) }), retries: 1, timeoutMs: 115000 }, workspaceId);
     const result = await res.json(); if (!res.ok) throw new Error(result.error || 'Anfrage fehlgeschlagen.'); return result;
   }
   async function load() { const [result, monitor] = await Promise.all([request('status'), request('monitor/status')]); setData(result); setConfig(result.config); setMonitoring(monitor); }

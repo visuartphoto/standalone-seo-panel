@@ -4,7 +4,7 @@
 
 > A reusable, embeddable SEO dashboard for any website. Bring your own OpenAI and DataForSEO credentials to audit pages, monitor rankings and competitors, track costs, and manage SEO from one secure admin widget.
 
-This folder contains the reusable widget source, a safe interactive demo login, backend reference modules, and the project brief for a multi-website product. The demo is intentionally disconnected from all providers.
+This folder contains the reusable widget source, a safe interactive demo login, a tenant-isolated multi-tenant backend, and the project brief for a multi-website product. The demo is intentionally disconnected from all providers.
 
 ## Try the demo
 
@@ -31,19 +31,20 @@ import './widget/seo.css';
 
 <SeoPanel
   accessToken={session.access_token}
+  workspaceId={workspace.id}
   siteName={window.location.hostname}
   language="en"
   darkMode={false}
 />
 ```
 
-Set `VITE_SEO_API_URL` to your own SEO backend URL ending in `/seo` (for example `https://api.example.com/functions/v1/seo`). The backend must validate the user's session and workspace permissions on every private route. See [PROJECT.md](PROJECT.md) before connecting provider accounts.
+Set `VITE_SEO_API_URL` to your own SEO backend URL ending in `/api/seo` (for example `https://api.example.com/api/seo`). The backend validates the user's session and workspace membership on every private route. See [PROJECT.md](PROJECT.md) before connecting provider accounts.
 
 ## Repository contents
 
 - `src/widget/` — floating launcher, dashboard panels, costs, and API adapter.
 - `src/demo.js`, `src/demo.css`, `index.html` — interactive, offline demo login.
-- `backend/reference/` — reference implementation modules and database schema from the first deployment. They are not a multi-tenant production backend by themselves.
+- `backend/` — tenant-isolated multi-tenant backend: schema with row-level security, auth, SEO routes, monitoring, costs, and scheduled jobs. See `backend/README.md`.
 - `PROJECT.md` — product brief, security boundaries, multi-tenant architecture, and competition description.
 - `.github/` — issue templates and contribution guidance for the GitHub project page.
 

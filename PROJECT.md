@@ -6,7 +6,7 @@ A reusable, embeddable SEO dashboard for any website. Bring your own OpenAI and 
 
 ## Project goal
 
-Turn the SEO dashboard first built for VISUART Studio into an independent product that website owners and developers can install on multiple websites. A small floating button opens a secure side panel inside the site's existing admin area. Each installation connects its own domain, users, provider accounts, tracked keywords, and preferences.
+Turn the SEO dashboard into an independent product that website owners and developers can install on multiple websites. A small floating button opens a secure side panel inside the site's existing admin area. Each installation connects its own domain, users, provider accounts, tracked keywords, and preferences.
 
 The panel should work as a reusable widget rather than requiring each site to build another admin dashboard. The host website supplies the authenticated admin session and a small integration adapter. A separately hosted backend stores workspace settings and runs scheduled jobs.
 
@@ -37,9 +37,17 @@ The local demo in `index.html` demonstrates the login and dashboard flow. Use `d
 
 ## Security and readiness boundary
 
-The `backend/reference/` files came from a single-site VISUART deployment. They are included to show working provider flows, request handling, costs, encryption patterns, and schema ideas. They rely on the original app's Supabase auth/profile lookup and one shared SEO table. They do **not** yet provide isolated tenant storage or self-service sign-up and must not be presented as a finished multi-tenant SaaS backend. Before connecting independent customers, implement and review the workspace model, tenant-scoped database policies, signup/invitation flows, billing/quotas, key rotation, audit logs, and cross-tenant access checks.
+The `backend/` folder is a tenant-isolated multi-tenant backend: workspaces,
+sites, members, row-level security, self-service signup, invitations, and
+per-workspace provider credentials. Before connecting independent customers,
+review the workspace model, tenant-scoped database policies, signup/invitation
+flows, billing/quotas, key rotation, audit logs, and cross-tenant access
+checks, and add automated integration tests that prove isolation.
 
-The component in `src/widget/` was separated from the VISUART app and its API URL is configurable. The host app is still responsible for authenticating the user and only mounting the widget for authorized administrators. Public demo endpoints must never accept real provider keys.
+The component in `src/widget/` is host-agnostic and its API URL is
+configurable. The host app is still responsible for authenticating the user
+and only mounting the widget for authorized administrators. Public demo
+endpoints must never accept real provider keys.
 
 ## GitHub repository page
 
@@ -55,4 +63,9 @@ Keep the repository public only if the intended competition rules allow publishi
 
 ## Current deliverable and next product milestone
 
-This project folder includes the extracted widget source, configurable API adapter, provider/backend reference files, project description, and a working offline demo login/dashboard. The next implementation milestone is a genuinely tenant-isolated backend and install flow, followed by host adapters, consentful provider-key setup, account-level usage controls, and automated integration testing.
+This project folder includes the widget source, configurable API adapter, a
+tenant-isolated multi-tenant backend, project description, and a working
+offline demo login/dashboard. The next implementation milestones are host
+adapters, consentful provider-key setup, account-level usage controls,
+billing/quotas, and automated integration testing that proves tenant
+isolation.
