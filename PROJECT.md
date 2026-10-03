@@ -2,7 +2,7 @@
 
 ## English project description
 
-A reusable, embeddable SEO dashboard for any website. Bring your own OpenAI and DataForSEO credentials to audit pages, monitor rankings and competitors, track costs, and manage SEO from one secure admin widget.
+A reusable, embeddable SEO dashboard for any website. Bring your own Abacus.ai and DataForSEO credentials to audit pages, monitor rankings and competitors, track costs, and manage SEO from one secure admin widget.
 
 ## Project goal
 
@@ -13,7 +13,7 @@ The panel should work as a reusable widget rather than requiring each site to bu
 ## What the product does
 
 - Technical and content checks for public pages, with clear measurements and an issue history.
-- OpenAI-assisted SEO suggestions, with provider usage and estimated cost shown per request.
+- Abacus.ai-assisted SEO suggestions, with provider usage and estimated cost shown per request.
 - DataForSEO organic Google ranking measurements, local search profiles, competitor results, and exact reported cost per request.
 - Editable keywords mapped to the most relevant page, with a configurable interval and daily spend limits.
 - robots.txt and sitemap generation from successfully verified public URLs, with safeguards for existing files.
@@ -23,14 +23,14 @@ The panel should work as a reusable widget rather than requiring each site to bu
 
 ## Demo access
 
-The local demo in `index.html` demonstrates the login and dashboard flow. Use `demo@seopanel.dev` / `DemoSEO2026!`. It stores no account, uses illustrative sample data, and sends no OpenAI or DataForSEO requests. Do not deploy these demo credentials as a production account.
+The local demo in `index.html` demonstrates the login and dashboard flow. Use `demo@seopanel.dev` / `DemoSEO2026!`. It stores no account, uses illustrative sample data, and sends no Abacus.ai or DataForSEO requests. Do not deploy these demo credentials as a production account.
 
 ## Multi-tenant architecture required for a public release
 
 1. **Widget:** React component mounted in an existing authenticated admin area. It receives a short-lived host-session token, site label, theme, and language. An adapter supports other frameworks or an iframe installation.
 2. **Identity and permissions:** A standalone installation can use managed authentication, or delegate identity to the host website. Every private API request resolves a user and workspace on the server. Roles include workspace owner, administrator, and read-only analyst.
 3. **Workspace boundary:** Store every site, setting, API credential, keyword, scan, event, and cost record with an immutable `workspace_id` and `site_id`. Enforce row-level policies and verify membership in backend handlers. A user must never access another workspace by changing an ID in a request.
-4. **Provider gateway:** OpenAI and DataForSEO requests run only on the backend. Encrypt credentials at rest with a server-side key-management service, redact secrets from logs, allow owners to rotate/delete keys, and never send a provider secret to the browser.
+4. **Provider gateway:** Abacus.ai and DataForSEO requests run only on the backend. Encrypt credentials at rest with a server-side key-management service, redact secrets from logs, allow owners to rotate/delete keys, and never send a provider secret to the browser.
 5. **Jobs and limits:** A queue performs scheduled health scans and ranking measurements. Enforce per-site intervals, per-workspace daily budgets, retries, and provider request limits server-side. Show reported charges separately from estimates.
 6. **Website files:** Generate robots.txt and sitemap.xml using verified public routes. Provide an API, a small installation script, or host-specific adapter so the website can publish those files. Never claim a successful publication until the host confirms it.
 7. **GitHub:** Use the repository for source, issue tracking, releases, and sanitized example configuration. Production website content, API keys, customer data, scans, ranking history, and database snapshots stay in private storage, never in Git.
@@ -53,7 +53,7 @@ endpoints must never accept real provider keys.
 
 Suggested repository name: `standalone-seo-panel`.
 
-Suggested About description: use the English description at the beginning of this file (also copied into `README.md`). Suggested topics: `seo`, `dashboard`, `react-widget`, `openai`, `dataforseo`, `technical-seo`, `multi-tenant`.
+Suggested About description: use the English description at the beginning of this file (also copied into `README.md`). Suggested topics: `seo`, `dashboard`, `react-widget`, `abacus-ai`, `dataforseo`, `technical-seo`, `multi-tenant`.
 
 Keep the repository public only if the intended competition rules allow publishing the implementation. Use GitHub Issues for feature requests and bug reports and Releases for versioned source. Keep secrets and customer-specific widget configuration out of commits. Add a license only after the owner chooses the terms under which others may reuse the code.
 

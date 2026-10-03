@@ -1,4 +1,4 @@
-/** Browser-side API adapter. API credentials for OpenAI/DataForSEO must never be placed here. */
+/** Browser-side API adapter. API credentials for Abacus.ai/DataForSEO must never be placed here. */
 export async function apiAuth(route: string, accessToken: string, options: Record<string, any> = {}, workspaceId?: string) {
   const base = (import.meta as any).env?.VITE_SEO_API_URL;
   if (!base) throw new Error('SEO API URL is not configured. Set VITE_SEO_API_URL.');

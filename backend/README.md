@@ -9,7 +9,7 @@ service role only runs scheduled jobs, never browser requests.
 
 - Deno + Hono
 - Supabase (PostgreSQL + Auth)
-- OpenAI (Responses API, web search) and DataForSEO (organic SERP) as providers
+- Abacus.ai RouteLLM (OpenAI-kompatible API, intelligentes Modell-Routing, Websuche) and DataForSEO (organic SERP) as providers
 
 ## Files
 
@@ -20,7 +20,7 @@ service role only runs scheduled jobs, never browser requests.
 | `auth.ts` | Self-service signup, login, invitations, member and site management |
 | `seo-routes.ts` | Page capture, audits, AI analysis, publish/rollback, settings, credentials |
 | `seo-monitoring.ts` | Health scans, Google ranking measurements, competitor context |
-| `seo-costs.ts` | OpenAI/DataForSEO cost estimation from reported usage |
+| `seo-costs.ts` | Abacus.ai/DataForSEO cost estimation from reported usage |
 | `jobs.ts` | Scheduled-job entry point that iterates tenants without crossing boundaries |
 | `setup.ts` | One-click Supabase setup: creates the whole schema via the pg-meta API |
 

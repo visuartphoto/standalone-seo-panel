@@ -2,7 +2,7 @@
 
 **Short description (for the project description field):**
 
-> A reusable, embeddable SEO dashboard for any website. Bring your own OpenAI and DataForSEO credentials to audit pages, monitor rankings and competitors, track costs, and manage SEO from one secure admin widget.
+> A reusable, embeddable SEO dashboard for any website. Bring your own Abacus.ai and DataForSEO credentials to audit pages, monitor rankings and competitors, track costs, and manage SEO from one secure admin widget.
 
 This folder contains the reusable widget source, a safe interactive demo login, a tenant-isolated multi-tenant backend, and the project brief for a multi-website product. The demo is intentionally disconnected from all providers.
 
