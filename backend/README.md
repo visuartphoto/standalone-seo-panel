@@ -22,17 +22,58 @@ service role only runs scheduled jobs, never browser requests.
 | `seo-monitoring.ts` | Health scans, Google ranking measurements, competitor context |
 | `seo-costs.ts` | OpenAI/DataForSEO cost estimation from reported usage |
 | `jobs.ts` | Scheduled-job entry point that iterates tenants without crossing boundaries |
+| `setup.ts` | One-click Supabase setup: creates the whole schema via the pg-meta API |
 
 ## Setup
 
-1. Create a Supabase project and run `schema.sql` in the SQL editor.
-2. Deploy with Deno Deploy (or any Deno host) and set the environment
-   variables from `.env.example`:
+### Option A — one-click from the panel (recommended)
+
+1. Create a Supabase project (free tier is enough).
+2. Deploy the backend with Deno Deploy (or any Deno host) and set the
+   environment variables from `.env.example`:
    - `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`
    - `SEO_ENCRYPTION_KEY` — 32 random bytes, base64 (AES-GCM for provider keys)
    - `SEO_JOB_KEY` — shared secret for the `/api/cron` endpoint
-3. Point the widget at the API with `VITE_SEO_API_URL` and pass the
-   `workspaceId` prop together with the host session token.
+3. Open the panel → **Verbindung** → **Supabase-Einrichtung**, paste the
+   Supabase project URL and the service role key, and click
+   **Supabase einrichten**. The backend creates all tables, row-level
+   security policies and functions automatically — no SQL editor needed.
+4. Register your account in the panel. Signup creates your workspace and the
+   first site automatically.
+
+### Option B — manual
+
+1. Create a Supabase project and run `schema.sql` in the SQL editor.
+2. Deploy and set the environment variables as above.
+
+## Integrating the panel into your own websites
+
+The panel is a central multi-tenant service. Your websites do **not** need
+any changes to their own Supabase databases — they only embed the widget.
+
+1. In the panel, add each website as a site (owner/admin): the site's domain
+   and, optionally, an allow-list of public paths.
+2. Embed the widget in the authenticated admin area of each website:
+
+```tsx
+import SeoPanel from './widget/SeoPanel';
+import './widget/seo.css';
+
+<SeoPanel
+  accessToken={session.access_token}
+  workspaceId={workspace.id}
+  siteName={window.location.hostname}
+  language="de"
+  darkMode={false}
+/>
+```
+
+3. Set `VITE_SEO_API_URL` to the central backend URL ending in `/api/seo`.
+
+The widget talks to the central backend only; the website's own Supabase
+database and its users stay untouched. If you prefer full data isolation per
+website, run a separate backend instance per website — each with its own
+Supabase project — and embed the widget with that instance's URL.
 
 ## Tenant isolation
 
@@ -49,7 +90,8 @@ service role only runs scheduled jobs, never browser requests.
 
 ## API overview
 
-Public: `POST /api/auth/signup`, `POST /api/auth/login`.
+Public: `POST /api/setup/supabase`, `GET /api/setup/status`,
+`POST /api/auth/signup`, `POST /api/auth/login`.
 
 Private (Bearer token + `X-Workspace-Id` header):
 

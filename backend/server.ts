@@ -1,6 +1,7 @@
 import { Hono } from 'npm:hono';
 import { cors } from 'npm:hono/cors';
 import { createClient } from 'npm:@supabase/supabase-js@2';
+import { registerSetupRoute } from './setup.ts';
 import { registerAuthRoutes } from './auth.ts';
 import { registerSeoRoutes } from './seo-routes.ts';
 import { registerJobRoutes } from './jobs.ts';
@@ -45,6 +46,9 @@ app.use('/api/*', async (c, next) => {
 
 app.onError((e, c) => c.json({ error: e instanceof Error ? e.message : 'Aktion fehlgeschlagen. Bitte erneut versuchen.' }, 500));
 
+// Public setup endpoints: the database is empty before the first run, so no
+// login can exist yet. The service role key authorizes the operation.
+registerSetupRoute(app);
 registerAuthRoutes(app, service);
 registerSeoRoutes(app, service);
 registerJobRoutes(app, service);
