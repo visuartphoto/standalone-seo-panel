@@ -19,7 +19,7 @@ app.use('/api/*', cors({ origin: '*', allowHeaders: ['Content-Type', 'Authorizat
 app.use('/api/*', async (c, next) => {
   c.header('Cache-Control', 'no-store');
   const routePath = c.req.path;
-  if (routePath === '/api/auth/signup' || routePath === '/api/auth/login') { await next(); return; }
+  if (routePath === '/api/auth/signup' || routePath === '/api/auth/login' || routePath.startsWith('/api/setup/')) { await next(); return; }
   if (routePath === '/api/cron') {
     const supplied = c.req.header('x-seo-job-key') || '';
     const expected = Deno.env.get('SEO_JOB_KEY') || '';
@@ -53,4 +53,4 @@ registerAuthRoutes(app, service);
 registerSeoRoutes(app, service);
 registerJobRoutes(app, service);
 
-Deno.serve(app.fetch);
+Deno.serve({ port: Number(Deno.env.get('PORT') || 8000), hostname: Deno.env.get('HOST') || '0.0.0.0' }, app.fetch);
