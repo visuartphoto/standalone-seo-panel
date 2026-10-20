@@ -36,7 +36,10 @@ supabase.visuart.studio  (Supabase, bereits bei dir im Docker-Betrieb)
 
    Das Skript installiert Deno, legt `/opt/seo-panel` an, erstellt die
    systemd-Unit, den Cron-Timer, Caddy mit deiner Subdomain und öffnet die
-   Firewall. Es ist idempotent — erneutes Ausführen ist gefahrlos.
+   Firewall. Es ist idempotent — erneutes Ausführen ist gefahrlos. Die
+   Host-App (Login + Panel) wird aus `host/dist/` nach `/opt/seo-panel/host`
+   kopiert; ist kein Build vorhanden und kein Node installiert, weist dich
+   das Skript darauf hin (lokal bauen: `npm ci && npm run build:host`).
 
 3. **Service-Role-Key eintragen** (wurde nicht automatisch gesetzt):
 
@@ -50,10 +53,26 @@ supabase.visuart.studio  (Supabase, bereits bei dir im Docker-Betrieb)
    du es für `supabase.visuart.studio` schon gemacht hast). Caddy holt dann
    automatisch das SSL-Zertifikat.
 
-5. **Browser öffnen**: `https://seo.visuart.studio` → Login/Registrierung →
-   Panel → Verbindung → **Supabase-Einrichtung** mit `https://supabase.visuart.studio`
+5. **Browser öffnen**: `https://seo.visuart.studio` → **Registrieren** (erstellt
+   Workspace + erste Website) → nach Login: einbetten. Danach im Panel unter
+   **Verbindung** → **Supabase-Einrichtung** mit `https://supabase.visuart.studio`
    und dem Service-Role-Key. Das Panel legt dann alle Tabellen selbst an
    (funktioniert auch mit selbst gehostetem Supabase über die pg-meta-API).
+   Anschließend Abacus.ai-Key unter **Abacus.ai-Verbindung** speichern und
+   testen.
+
+## Host-App (Quellcode)
+
+Die Host-App ist eine kleine Vite/React-App in `host/`: Login/Registrierung
+gegen `/api/auth/*`, dann das Widget eingebettet. Im Projekt-Root bauen:
+
+```bash
+npm ci
+npm run build:host   # → host/dist/ (statische Dateien)
+```
+
+Der gebaute Stand in `host/dist/` ist eingecheckt, damit der VPS ohne
+Node-Instanz deployen kann.
 
 ## Konfiguration
 

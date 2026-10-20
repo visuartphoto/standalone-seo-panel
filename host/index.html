@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SEO Panel — Anmeldung</title>
+  <style>
+    :root {
+      --host-bg: #f4f6f1; --host-card: #ffffff; --host-text: #1a271f;
+      --host-muted: #637068; --host-accent: #91a54b; --host-accent-strong: #25321e;
+      --host-border: #dde4d9; --host-danger: #a34a3a;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: var(--host-bg); color: var(--host-text); min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    .auth-wrap { max-width: 440px; margin: 0 auto; padding: 9vh 20px 60px; }
+    .auth-logo { font: 800 13px/1 var(--mono, ui-monospace, Menlo, monospace); letter-spacing: 2px; color: var(--host-accent); text-transform: uppercase; margin-bottom: 18px; }
+    .auth-logo span { color: var(--host-text); }
+    .auth-card { background: var(--host-card); border: 1px solid var(--host-border); border-radius: 16px; padding: 28px; box-shadow: 0 10px 30px rgba(26,39,31,.06); }
+    .auth-tabs { display: flex; gap: 4px; background: var(--host-bg); padding: 4px; border-radius: 10px; margin-bottom: 22px; }
+    .auth-tab { flex: 1; text-align: center; padding: 8px 0; border: 0; border-radius: 8px; background: transparent; font: 600 14px var(--mono, ui-monospace, Menlo, monospace); color: var(--host-muted); cursor: pointer; }
+    .auth-tab.active { background: var(--host-card); color: var(--host-text); box-shadow: 0 1px 4px rgba(26,39,31,.1); }
+    .auth-field { display: block; margin-bottom: 14px; }
+    .auth-field label { display: block; font: 600 12px/1.4 var(--mono, ui-monospace, Menlo, monospace); letter-spacing: .4px; color: var(--host-muted); margin-bottom: 6px; }
+    .auth-field input { width: 100%; padding: 10px 12px; border: 1px solid var(--host-border); border-radius: 8px; font: 15px inherit; background: #fafcf9; }
+    .auth-field input:focus { outline: 2px solid var(--host-accent); outline-offset: 1px; border-color: transparent; }
+    .auth-btn { width: 100%; padding: 11px; border: 0; border-radius: 9px; background: var(--host-accent-strong); color: #fff; font: 700 15px inherit; cursor: pointer; }
+    .auth-btn:disabled { opacity: .55; cursor: default; }
+    .auth-msg { margin: 12px 0 0; font-size: 13.5px; }
+    .auth-msg.ok { color: #4c6118; } .auth-msg.err { color: var(--host-danger); }
+    .auth-hint { margin-top: 16px; font-size: 12.5px; color: var(--host-muted); }
+    .app-banner { max-width: 1080px; margin: 0 auto; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .app-banner .who { font: 600 14px var(--mono, ui-monospace, Menlo, monospace); color: var(--host-muted); }
+    .app-banner .who strong { color: var(--host-text); }
+    .app-banner .signout { padding: 7px 14px; border: 1px solid var(--host-border); border-radius: 8px; background: #fff; font: 600 13px inherit; cursor: pointer; color: var(--host-muted); }
+    .app-canvas { max-width: 1080px; margin: 0 auto; padding: 0 20px 48px; }
+    .app-ws { margin-bottom: 14px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .app-ws label { font: 600 12px var(--mono, ui-monospace, Menlo, monospace); color: var(--host-muted); }
+    .app-ws select { padding: 8px 10px; border: 1px solid var(--host-border); border-radius: 8px; background: #fff; font: 14px inherit; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+</html>

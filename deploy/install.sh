@@ -22,6 +22,16 @@ echo "==> 2/6 Projekt nach $INSTALL_DIR kopieren"
 mkdir -p "$INSTALL_DIR"
 cp -r "$REPO_DIR/backend" "$INSTALL_DIR/backend"
 mkdir -p "$INSTALL_DIR/host"
+if [ -d "$REPO_DIR/host/dist" ]; then
+  cp -r "$REPO_DIR/host/dist/." "$INSTALL_DIR/host/"
+  echo "   Host-App (Build) nach $INSTALL_DIR/host kopiert."
+elif command -v node >/dev/null 2>&1 && command -v npm >/dev/null 2>&1; then
+  echo "   Host-App: kein Build gefunden — baue mit npm…"
+  (cd "$REPO_DIR" && npm ci && npm run build:host && cp -r host/dist/. "$INSTALL_DIR/host/")
+else
+  echo "   WARNUNG: Kein Host-App-Build gefunden und kein Node vorhanden."
+  echo "   Bitte lokal 'npm ci && npm run build:host' ausführen und host/dist/ hochladen."
+fi
 
 echo "==> 3/6 Umgebung (.env)"
 if [ ! -f "$INSTALL_DIR/backend/.env" ]; then
