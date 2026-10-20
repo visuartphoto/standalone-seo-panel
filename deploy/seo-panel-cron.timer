@@ -1,0 +1,10 @@
+[Unit]
+Description=Standalone SEO Panel automation (daily)
+
+[Timer]
+OnCalendar=*-*-* 06:00:00
+Persistent=true
+RandomizedDelaySec=60
+
+[Install]
+WantedBy=timers.target

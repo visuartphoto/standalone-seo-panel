@@ -1,0 +1,11 @@
+__DOMAIN__ {
+	encode gzip zstd
+
+	handle_path /api/* {
+		reverse_proxy 127.0.0.1:__PORT__
+	}
+
+	root * /opt/seo-panel/host
+	try_files {path} /index.html
+	file_server
+}

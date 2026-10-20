@@ -1,0 +1,6 @@
+[Unit]
+Description=Run one Standalone SEO Panel automation pass
+
+[Service]
+Type=oneshot
+ExecStart=/opt/seo-panel/run-cron.sh

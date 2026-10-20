@@ -87,8 +87,7 @@ export function registerSetupRoute(app: Hono) {
     const url = typeof b.url === 'string' ? b.url.trim().replace(/\/$/, '') : '';
     const key = typeof b.serviceRoleKey === 'string' ? b.serviceRoleKey.trim() : '';
     let host: string;
-    try { host = new URL(url).hostname; } catch { return c.json({ error: 'Bitte eine gültige Supabase-Projekt-URL angeben (z. B. https://abcd1234.supabase.co).' }, 400); }
-    if (!host.endsWith('.supabase.co')) return c.json({ error: 'Die URL muss auf eine Supabase-Instanz zeigen (…supabase.co).' }, 400);
+    try { const u = new URL(url); if (u.protocol !== 'https:' || !u.hostname) throw new Error(); host = u.hostname; } catch { return c.json({ error: 'Bitte eine gültige HTTPS-URL angeben, z. B. https://supabase.visuart.studio.' }, 400); }
     if (!/^sb_(secret_)?[A-Za-z0-9_\-]+$/.test(key) && !/^eyJ[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+$/.test(key)) return c.json({ error: 'Bitte den Service-Role-Key (geheimer Schlüssel) aus den Supabase-Projekteinstellungen einfügen.' }, 400);
 
     const pg = async (query: string) => {

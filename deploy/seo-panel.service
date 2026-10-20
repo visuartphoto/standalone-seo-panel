@@ -1,0 +1,17 @@
+[Unit]
+Description=Standalone SEO Panel backend (Deno)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/seo-panel/backend
+EnvironmentFile=/opt/seo-panel/backend/.env
+Environment=PATH=/root/.deno/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/root/.deno/bin/deno run --allow-all server.ts
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

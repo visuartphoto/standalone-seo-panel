@@ -24,6 +24,13 @@ service role only runs scheduled jobs, never browser requests.
 | `jobs.ts` | Scheduled-job entry point that iterates tenants without crossing boundaries |
 | `setup.ts` | One-click Supabase setup: creates the whole schema via the pg-meta API |
 
+## Deploy
+
+Du kannst das Backend auf **deinem eigenen VPS** betreiben (Deno + systemd +
+Caddy) — auch zusammen mit selbst gehostetem Supabase. Das fertige Paket liegt
+in `deploy/`: `sudo ./install.sh` richtet Deno, systemd-Unit, Cron-Timer und
+Caddy mit SSL für deine Subdomain ein. Anleitung: `deploy/README.md`.
+
 ## Setup
 
 ### Option A — one-click from the panel (recommended)
